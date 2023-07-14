@@ -26,11 +26,12 @@ router.post("/login", async(req, res, next) => {
 
 // /auth/signup
 router.post('/signup', async(req, res, next) => {
+    console.log("running auth/signup route")
     try{
-        const {email, password} = req.body;
+        const {email, password, isAdmin} = req.body;
         // const email = req.body.email;
         // const password = req.body.password;
-        if (!email || !password){
+        if (!email || !password){ //cannot pass !isAdmin in here because that is boolean and when false will execute
             return res.status(400).send("Required fields missing");
         }
         const user = await User.create(req.body);
@@ -50,13 +51,27 @@ router.post('/signup', async(req, res, next) => {
 
 // auth/logout
 router.post('/logout', (req, res, next) => {
-    //passport js method on the request
+    console.log("running auth/logout route")
+
+    // req.session.destroy((err) => {
+    //     if(err){
+    //        return next(err);
+    //     }else{
+    //         console.log(session.email);
+    //        // req.logout();
+    //         req.end();
+    //         res.redirect('/signup');
+    //     }
+    //  });
+
+    // passport js method on the request
     req.logout((error) => {
         if(error){
             return next(error);
         }
         res.redirect("/");
     })
+    // req.session = null;
     req.session.destroy(); //
 })
 
