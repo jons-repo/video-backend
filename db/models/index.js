@@ -1,26 +1,35 @@
 // Associations 
 const Livestream = require('./livestream');
 const User = require('./user');
-const Chat = require('./chat')
+const Message = require('./message')
 
-// //one to many: student can have one campus WHILE campus can have many students
-// Campus.hasMany(Student, {
-//     foreignKey: 'campusId',
-//     as: 'student',
-// });
+User.hasOne(Livestream, {
+    foreignKey: 'user_id',
+    as: 'user',
+})
 
-// Student.belongsTo(Campus, {
-//     foreignKey: 'campusId',
-//     as: 'campus'
-// });
+Livestream.hasMany(Message, {
+    foreignKey: 'livestream_id',
+    as: 'message',
+});
 
-// module.exports = {
-//     Student,
-//     Campus
-// }
+Message.belongsTo(Livestream, {
+    foreignKey: 'livestream_id',
+    as: 'livestream'
+});
+
+User.hasMany(Message, {
+    foreignKey: 'user_id',
+    as: 'message',
+});
+
+Message.belongsTo(User, {
+    foreignKey: 'user_id',
+    as: 'user'
+});
 
  module.exports = {
      User,
      Livestream,
-     Chat
+     Message
      }
