@@ -26,4 +26,29 @@ router.get('/:id', async(req, res, next) =>{
     }
 });
 
+router.put('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { messageLanguage, siteLanguage, streamLanguage } = req.body;
+    const user = await User.findByPk(id);
+
+    if (messageLanguage) {
+      user.messageLanguage = messageLanguage;
+    }
+
+    if (siteLanguage) {
+      user.siteLanguage = siteLanguage;
+    }
+
+    if (streamLanguage) {
+      user.streamLanguage = streamLanguage;
+    }
+
+    await user.save();
+    res.send(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

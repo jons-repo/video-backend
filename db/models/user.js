@@ -49,6 +49,21 @@ User.init(
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false,
+        },
+        messageLanguage:{
+            type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: 'EN',
+        },
+        siteLanguage:{
+            type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: 'EN',
+        },
+        streamLanguage:{
+            type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: 'EN',
         }
     },
 
