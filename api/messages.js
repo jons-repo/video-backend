@@ -21,7 +21,7 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async(req, res, next) =>{
     try{
         const { id } = req.params;
-        const message = await Livestream.findByPk(id);
+        const message = await Message.findByPk(id);
         message? res.status(200).json(message): res.status(404).send('Message Not Found');
 
     } catch (error){
