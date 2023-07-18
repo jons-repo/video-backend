@@ -1,11 +1,55 @@
 const express = require('express');
-const http = require('http')
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const passport = require('passport');
 const cors = require('cors');
 const bodyParser = require('body-parser'); //may or may not need
 const db = require('./db');
+const app = express();
+
+
+const http = require('http');
+const {Server } = require("socket.io");
+// app.use(cors());
+
+const server = http.createServer(app);
+// const io = new Server (server, {
+//     cors: {
+//         origin: "http://localhost:3000",
+//         methods: ["GET", "POST"],
+//     }
+// });
+const io = new Server(server);
+
+io.on("connection", (socket) => {
+    console.log(`user connected ${socket.id}`);
+
+    socket.on("join_room", (data) => {
+        socket.join(data);
+        console.log(`user with id ${socket.id} joined room: ${data}`);
+    })
+
+    // socket.on("add_video", (dataObject) => {
+    //     console.log(dataObject.stream);
+    //     socket.to(dataObject.room).emit("receive_video", dataObject.stream);
+    // })
+
+    socket.on("send_message", (data) => {
+        console.log(data);
+        socket.to(data.room).emit("receive_message", data);
+    })
+
+    socket.on("disconnect", () => {
+        console.log("user disconnected", socket.id);
+    })
+})
+
+
+server.listen(3001, () => {
+    console.log("server running on port 3001");
+})
+
+
 
 require("dotenv").config();
 
@@ -65,15 +109,14 @@ const startServer = async (app, port) => {
     await db.sync();
     //if want to drop table rows:
     // await db.sync( {force: true });
-    app.listen(port, () => {
-        console.log(`listening on port: ${port}`)
-    });
+    // app.listen(port, () => {
+    //     console.log(`listening on port: ${port}`)
+    // });
     return app;
 }
 
 // Configuring all functions in one major function
 const configureApp = async(port) => {
-    const app = express();
     setupPassport();
     setupMiddleware(app);
     await sessionStore.sync();
@@ -81,4 +124,4 @@ const configureApp = async(port) => {
     return startServer(app, port);
 };
 
-module.exports = configureApp(8080);
+module.exports = configureApp(3001);
