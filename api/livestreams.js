@@ -22,7 +22,7 @@ router.get('/:id', async(req, res, next) =>{
     try{
         const { id } = req.params;
         const livestream = await Livestream.findByPk(id);
-        livestream? res.status(200).json(livestream): res.status(404).send('Campus Not Found');
+        livestream? res.status(200).json(livestream): res.status(404).send('Livestream Not Found');
 
     } catch (error){
         next(error);

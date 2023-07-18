@@ -2,7 +2,8 @@ const router = require('express').Router();
 
 //Mounted on /api
 router.use('/user', require("./user"));
-router.use('/livestream', require("./livestream"));
+router.use('/livestreams', require("./livestreams"));
+router.use('/messages', require("./messages"));
 
 //404 Handling
 router.use((req, res, next) => {
