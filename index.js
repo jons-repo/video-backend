@@ -49,8 +49,6 @@ server.listen(3001, () => {
     console.log("server running on port 3001");
 })
 
-
-
 require("dotenv").config();
 
 //will create a session store and pass in our database

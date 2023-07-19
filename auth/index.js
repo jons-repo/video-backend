@@ -3,7 +3,9 @@ const { User } = require('../db/models')
 
 // route: mounted on /auth
 
-
+router.get("/logout", (req,res) => {
+    res.send('heyyy')
+})
 // /auth/login
 router.post("/login", async(req, res, next) => {
     try{
@@ -51,29 +53,23 @@ router.post('/signup', async(req, res, next) => {
 
 // auth/logout
 router.post('/logout', (req, res, next) => {
-    console.log("running auth/logout route")
-
-    // req.session.destroy((err) => {
-    //     if(err){
-    //        return next(err);
-    //     }else{
-    //         console.log(session.email);
-    //        // req.logout();
-    //         req.end();
-    //         res.redirect('/signup');
-    //     }
-    //  });
-
-    // passport js method on the request
-    req.logout((error) => {
-        if(error){
+    console.log("running auth/logout route");
+        req.logout((error) => {
+            console.log('logging outttttt')
+        if (error) {
             return next(error);
         }
-        res.redirect("/");
-    })
-    // req.session = null;
-    req.session.destroy(); //
-})
+
+        req.session.destroy((err) => {
+            console.log('destroy')
+            if (err) {
+                return next(err);
+            }
+        });
+    });
+   res.send(200);
+   console.log("we are finishing loggin out ya");
+});
 
 // auth/me (another option: auth/profile)
 router.get('/me', (req, res, next) => {

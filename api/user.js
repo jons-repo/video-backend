@@ -5,6 +5,7 @@ const { User } = require('../db/models');
 // http://localhost/8080/api/user
 
 router.get('/allUsers', async (req, res, next)=>{
+  console.log(req.user + " HEEEEYEYEYEYEYYYYY!!!!")
     try{
         //only want to get id and email back, do not want to return and expose their password
         const allUsers = await User.findAll({attributes: ["id", "email"]}) 
