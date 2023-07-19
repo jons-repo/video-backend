@@ -3,6 +3,9 @@ const { User } = require('../db/models')
 
 // route: mounted on /auth
 
+// /auth/google
+router.use("/google", require("./google"));
+
 
 // /auth/login
 router.post("/login", async(req, res, next) => {
@@ -80,8 +83,5 @@ router.get('/me', (req, res, next) => {
     //when on me, will send me my data so i can access it
     res.status(200).json(req.user);
 })
-
-// /auth/google
-router.use("/google", require("./google"));
 
 module.exports = router;

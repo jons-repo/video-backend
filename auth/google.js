@@ -19,10 +19,12 @@ passport.use(
             clientID: dotenv.GOOGLE_ID,
             clientSecret: dotenv.GOOGLE_CLIENT_SECRET,
             callbackURL: dotenv.GOOGLE_CALLBACK_URL,
+            passReqToCallback :true
         },
         
-        async(accessToken, refreshToken, profile, done) => {
+        async(req, accessToken, refreshToken, profile, done) => {
             try{
+                console.log(profile);
                 const googleId = profile.id;
                 const email = profile.emails[0].value;
                 const imgUrl = profile.photos[0].value;
@@ -35,7 +37,7 @@ passport.use(
                     where: {googleId},
                     defaults: {email, imgUrl, firstName, lastName, fullName}, //dont need password, google handles authentication
                 });
-
+                console.log('done');
                 done(null, user)
             }
             catch(error){
@@ -59,7 +61,7 @@ router.get(
 router.get(
     "/callback", 
     passport.authenticate("google", {
-        failureRedirect: "http://localhost:3000/login", 
+        failureRedirect: "http://localhost:3001/login", 
         // successRedirect: "/", --> passing in req, res function instead
     }),
     (req, res) => {

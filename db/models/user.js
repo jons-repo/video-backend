@@ -39,6 +39,25 @@ User.init(
         password: {
             type: DataTypes.STRING,
         },
+        firstName: {
+            type: DataTypes.STRING,
+            defaultValue: 'Jenny',
+            allowNull: false,
+        },
+        lastName: {
+            type: DataTypes.STRING,
+            defaultValue: 'Craig',
+            allowNull: false,
+        },
+        fullName: {
+            type: DataTypes.STRING,
+            defaultValue: 'Jenny Craig',
+            allowNull: false,
+        },
+        imgUrl: {
+            type: DataTypes.STRING(1000),
+            defaultValue: "https://i0.wp.com/cfe.umich.edu/wp-content/uploads/2015/09/blank-profile.jpg?fit=4016%2C2677&ssl=1",
+        },
         salt: { //salt is needed to run the encryption again, each user will have unique salt
             type: DataTypes.STRING
         },
@@ -67,6 +86,12 @@ User.init(
         }
     },
 
+    // const googleId = profile.id;
+    //             const email = profile.emails[0].value;
+    //             const imgUrl = profile.photos[0].value;
+    //             const firstName = profile.name.givenName;
+    //             const lastName = profile.name.familyName;
+    //             const fullName = profile.displayName;
     //options object next
     {
         sequelize: db,
