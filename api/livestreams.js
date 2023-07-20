@@ -35,7 +35,9 @@ router.post('/', async(req, res, next) => {
         const { title, description, user_id } = req.body;
         const newLivestream= Livestream.build({title, description, user_id});
         await newLivestream.save();
-        res.json(newLivestream);
+        
+        const newLivestreamId = newLivestream.get('id');
+        res.json({ id: newLivestreamId, title, description, user_id });
     }
     catch(error){
         next(error);
