@@ -1,5 +1,5 @@
 const db = require('./db');
-const {User, Livestream, Message} = require ('./db/models');
+const {User, Livestream, Message, Follow} = require ('./db/models');
 
 const seedUsers = [
     {email: 'john.doe@gmail.com', password: 'tofu123', isAdmin: true, firstName: 'John', lastName: 'Doe', fullName: 'John Doe'},
@@ -17,11 +17,19 @@ const seedMessages = [
     { content: 'yes', user_id: 2, livestream_id: 2 }
 ];
 
+const seedFollows = [
+  { follower: 1, following: 3 }, 
+  { follower: 2, following: 4 }, 
+];
+
 const seed = async () => {
   try {
     await User.bulkCreate(seedUsers);
     await Livestream.bulkCreate(seedLivestreams);
     await Message.bulkCreate(seedMessages);
+
+    await Follow.bulkCreate(seedFollows);
+
     console.log('Seeding completed successfully.');
   } catch (error) {
     console.error('Seeding error:', error);
