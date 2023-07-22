@@ -29,11 +29,23 @@ router.get('/:id', async(req, res, next) =>{
     }
 });
 
+router.get("/byCode/:code", async (req, res, next) => {
+    console.log("getting by code");
+    try{
+        const {code} = req.params;
+        const livestream = await Livestream.findOne({where : { code: code }});
+        livestream? res.status(200).json(livestream): res.status(404).send('Livestream Not Found');        
+    }
+    catch(error){
+        next(error);
+    }
+})
+
 //add a new livestream record to the livestreams table (INSERT INTO...VALUES)
 router.post('/', async(req, res, next) => {
     try{
-        const { title, description, user_id } = req.body;
-        const newLivestream= Livestream.build({title, description, user_id});
+        const { title, description, user_id, code } = req.body;
+        const newLivestream= Livestream.build({title, description, user_id, code});
         await newLivestream.save();
         
         res.json(newLivestream);
