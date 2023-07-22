@@ -2,6 +2,7 @@
 const Livestream = require('./livestream');
 const User = require('./user');
 const Message = require('./message')
+const Follow = require('./follow');
 
 User.hasOne(Livestream, {
     foreignKey: 'user_id',
@@ -28,8 +29,19 @@ Message.belongsTo(User, {
     as: 'user'
 });
 
- module.exports = {
-     User,
-     Livestream,
-     Message
-     }
+Follow.belongsTo(User, {
+    foreignKey: 'follower',
+    as: 'followerUser',
+});
+
+Follow.belongsTo(User, {
+    foreignKey: 'following',
+    as: 'followingUser',
+});
+
+module.exports = {
+    User,
+    Livestream,
+    Message,
+    Follow,
+};
