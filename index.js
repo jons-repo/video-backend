@@ -70,8 +70,35 @@ io.on("connection", (socket) => {
         const livestreamRoom = livestreamRooms.find((room) => room.livestreamCode === data.livestreamCode);
         livestreamRoom.connectedUsers = [...livestreamRoom.connectedUsers, newUser];
 
+        //emit to all users which are already in this room to prepare peer connection
+        livestreamRoom.connectedUsers.forEach((user) => {
+            //do not want to send message to self
+            if(user.socketId !== socket.id){
+                const data = {
+                    connectedUserSocketId: socket.id,
+                };
+
+            io.to(user.socketId).emit('prepare-connection', data);
+        }
+    })
+
         io.to(data.livestreamCode).emit('update-livestream', {participantsInLivestream: livestreamRoom.connectedUsers});
 
+    })
+
+    socket.on('connection-signal', (data) => {
+        const { connectedUserSocketId, signal } = data;
+
+        //changing the connected user socket id from the sender,
+        const signalingData = {signal, connectedUserSocketId: socket.id}
+
+        io.to(connectedUserSocketId).emit("connection-signal", signalingData);
+    })
+
+    socket.on("initialize-connection", (data) => {
+        const{connectedUserSocketId} = data;
+        const initData = {connectedUserSocketId: socket.id};
+        io.to(connectedUserSocketId).emit('initialize-connection', initData);
     })
 
     socket.on("send_message", (data) => {
