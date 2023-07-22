@@ -64,9 +64,14 @@ router.get(
         failureRedirect: "http://localhost:3001/login", 
         // successRedirect: "/", --> passing in req, res function instead
     }),
-    (req, res) => {
+    async (req, res) => {
         //successfull authentication, redirect home
         // res.redirect("http://localhost:3000/home");
+        // console.log(req.user.dataValues.id);
+        // const user = await User.findByPk(req.user.dataValues.id);
+        // console.log("user found: " + JSON.stringify(user));
+        // req.login(user, (err) => (err? console.log(err) : res.json(user).redirect("http://localhost:3000/")))
+
         res.redirect("http://localhost:3000/");
     }
 );
