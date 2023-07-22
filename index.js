@@ -50,6 +50,9 @@ io.on("connection", (socket) => {
         }
 
         livestreamRooms = [...livestreamRooms, newLivestreamRoom];
+
+        socket.emit('update-livestream', {participantsInLivestream: newLivestreamRoom.connectedUsers});
+        // socket.join(data.livestreamCode);
     });
 
     socket.on("join-livestream", (data) => {
@@ -66,6 +69,8 @@ io.on("connection", (socket) => {
 
         const livestreamRoom = livestreamRooms.find((room) => room.livestreamCode === data.livestreamCode);
         livestreamRoom.connectedUsers = [...livestreamRoom.connectedUsers, newUser];
+
+        io.to(data.livestreamCode).emit('update-livestream', {participantsInLivestream: livestreamRoom.connectedUsers});
 
     })
 
