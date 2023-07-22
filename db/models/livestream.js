@@ -12,6 +12,10 @@ const Livestream = db.define('livestream', {
         type: DataTypes.STRING,
         allowNull: true,
     },
+    code: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
 })
 
 module.exports = Livestream;
