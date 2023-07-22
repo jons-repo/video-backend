@@ -21,18 +21,53 @@ const server = http.createServer(app);
 // });
 const io = new Server(server);
 
+let connectedUsers = [];
+let livestreamRooms = [];
+
 io.on("connection", (socket) => {
     console.log(`user connected ${socket.id}`);
 
-    socket.on("join_room", (data) => {
-        socket.join(data);
-        console.log(`user with id ${socket.id} joined room: ${data}`);
-    })
-
-    // socket.on("add_video", (dataObject) => {
-    //     console.log(dataObject.stream);
-    //     socket.to(dataObject.room).emit("receive_video", dataObject.stream);
+    // socket.on("join_room", (data) => {
+    //     socket.join(data);
+    //     console.log(`user with id ${socket.id} joined room: ${data}`);
     // })
+
+    socket.on("host-new-livestream", (data) => {
+        socket.join(data.livestreamCode);
+        console.log(`user with id ${socket.id} and name ${data.fullName} created room: ${data.livestreamCode}`);
+
+        const newUser = {
+            name: data.fullName,
+            socketId: socket.id,
+            livestreamCode: data.livestreamCode,
+        }
+
+        connectedUsers = [...connectedUsers, newUser];
+
+        const newLivestreamRoom = {
+            livestreamCode: data.livestreamCode,
+            connectedUsers: [newUser],
+        }
+
+        livestreamRooms = [...livestreamRooms, newLivestreamRoom];
+    });
+
+    socket.on("join-livestream", (data) => {
+        socket.join(data.livestreamCode);
+        console.log(`user with id ${socket.id} and name ${data.fullName} joined room: ${data.livestreamCode}`);
+
+        const newUser = {
+            name: data.fullName,
+            socketId: socket.id,
+            livestreamCode: data.livestreamCode,
+        }
+
+        connectedUsers = [...connectedUsers, newUser];
+
+        const livestreamRoom = livestreamRooms.find((room) => room.livestreamCode === data.livestreamCode);
+        livestreamRoom.connectedUsers = [...livestreamRoom.connectedUsers, newUser];
+
+    })
 
     socket.on("send_message", (data) => {
         console.log(data);
