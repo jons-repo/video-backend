@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { Livestream } = require('../db/models');
 
-// root: http://localhost/8080/api/livestream
+// root: http://localhost/3001/api/livestreams
 
 //get all livestream from the livestream table (SELECT * FROM livestreams)
 router.get('/', async (req, res, next) => {
@@ -36,8 +36,7 @@ router.post('/', async(req, res, next) => {
         const newLivestream= Livestream.build({title, description, user_id});
         await newLivestream.save();
         
-        const newLivestreamId = newLivestream.get('id');
-        res.json({ id: newLivestreamId, title, description, user_id });
+        res.json(newLivestream);
     }
     catch(error){
         next(error);

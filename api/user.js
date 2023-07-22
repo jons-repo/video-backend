@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { User } = require('../db/models');
 
 //mounted on api/user
-// http://localhost/8080/api/user
+// http://localhost/3001/api/user
 
 router.get('/allUsers', async (req, res, next)=>{
   console.log(req.user + " HEEEEYEYEYEYEYYYYY!!!!")
