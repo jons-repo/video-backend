@@ -78,6 +78,7 @@ io.on("connection", (socket) => {
                     connectedUserSocketId: socket.id,
                 };
 
+            //user which just joined room needs to inform the other already connected users to prepare for peer connection    
             io.to(user.socketId).emit('prepare-connection', data);
         }
     })
@@ -95,11 +96,14 @@ io.on("connection", (socket) => {
         io.to(connectedUserSocketId).emit("connection-signal", signalingData);
     })
 
+
     socket.on("initialize-connection", (data) => {
         const{connectedUserSocketId} = data;
+        //init data now contains the socket id of the already existing users (swapped)
         const initData = {connectedUserSocketId: socket.id};
         io.to(connectedUserSocketId).emit('initialize-connection', initData);
     })
+
 
     socket.on("send_message", (data) => {
         console.log(data);
@@ -107,8 +111,35 @@ io.on("connection", (socket) => {
     })
 
     socket.on("disconnect", () => {
+        const disconnectedUser = connectedUsers.find((user) => user.socketId === socket.id);
+
+        if(disconnectedUser){
+            const livestreamRoom = livestreamRooms.find((room) => room.livestreamCode === disconnectedUser.livestreamCode);
+
+            livestreamRoom.connectedUsers = livestreamRoom.connectedUsers.filter((user) => user.socketId !== socket.id);
+
+            //leave socket io room
+            socket.leave(disconnectedUser.livestreamCode);
+
+            if(livestreamRoom.connectedUsers.length > 0) {
+
+                //emit event to all users still in room that user disconnected
+                io.to(livestreamRoom.livestreamCode).emit('user-disconnected', {socketId: socket.id});
+
+                //update list of participants in livestream
+                io.to(livestreamRoom.livestreamCode).emit('update-livestream', {
+                    participantsInLivestream: livestreamRoom.connectedUsers
+                });
+            }
+            else { //else if no users are left in room, close the room
+                livestreamRooms = livestreamRooms.filter((room) => room.livestreamCode !== room.livestreamCode);
+            }
+
+        }
+
         console.log("user disconnected", socket.id);
-    })
+    });
+
 })
 
 
