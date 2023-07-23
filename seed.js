@@ -3,9 +3,9 @@ const {User, Livestream, Message, Follow} = require ('./db/models');
 
 const seedUsers = [
     {email: 'john.doe@gmail.com', password: 'tofu123', isAdmin: true, firstName: 'John', lastName: 'Doe', fullName: 'John Doe'},
-    {email: 'jane.doe@gmail.com', password: 'tomato456', isAdmin: false, firstName: 'Jane', lastName: 'Doe', fullName: 'Jane Doe'},
-    {email: 'lily.rose@gmail.com', password: 'sprinkles789', firstName: 'Lily', lastName:'Rose', fullName:'Lily Rose'},
-    {email: 'tom.hanks@gmail.com', password: 'tom123', firstName: 'Tom', lastName:'Hanks', fullName:'Tom Hanks'},
+    {email: 'jane.hello@gmail.com', password: 'tomato456', isAdmin: false, firstName: 'Jane', lastName: 'Doe', fullName: 'Jane Doe'},
+    {email: '_', password: 'appple1234', firstName: 'Lily', lastName:'Rose', fullName:'Lily Rose'},
+    {email: '_', password: 'apple1234', firstName: 'Tom', lastName:'Hanks', fullName:'Tom Hanks'},
 ];
 
 const seedLivestreams = [
@@ -19,8 +19,9 @@ const seedMessages = [
 ];
 
 const seedFollows = [
-  { follower: 1, following: 3 }, 
-  { follower: 2, following: 4 }, 
+  { follower: 4, following: 3 }, 
+  { follower: 1, following: 2 }, 
+
 ];
 
 const seed = async () => {
@@ -39,5 +40,4 @@ const seed = async () => {
   }
 };
 
-//only seed once
 seed().then(() => process.exit());

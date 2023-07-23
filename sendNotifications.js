@@ -6,13 +6,13 @@ async function sendEmailNotification(emails, subject, text) {
             host: 'smtp.elasticemail.com',
             port: 2525,
             auth: {
-                user: 's.jonathan4252@gmail.com',
-                pass: 'F20B35C1488975822809CAC73EEF648C1360', 
+                user: '_',
+                pass: '_', 
             },
         });
 
         const mailOptions = {
-            from: 's.jonathan4252@gmail.com',
+            from: '_',
             to: emails.join(','),
             subject: subject,
             text: text,
