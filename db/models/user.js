@@ -49,7 +49,7 @@ User.init(
             defaultValue: 'Craig',
             allowNull: false,
         },
-        fullName: {
+        userName: {
             type: DataTypes.STRING,
             defaultValue: 'Jenny Craig',
             allowNull: false,
@@ -69,22 +69,51 @@ User.init(
             allowNull: false,
             defaultValue: false,
         },
-        messageLanguage:{
+        language:{
             type: DataTypes.STRING,
             allowNull: false,
             defaultValue: 'EN',
         },
-        siteLanguage:{
-            type: DataTypes.STRING,
-            allowNull: false,
-            defaultValue: 'EN',
+        bio: {
+            type: DataTypes.STRING(100),
+            defaultValue:'I love tennis, movies, music, and more! Let\'s connect!'
         },
-        streamLanguage:{
-            type: DataTypes.STRING,
-            allowNull: false,
-            defaultValue: 'EN',
-        }
+        isDeactivated: {
+            type: DataTypes.BOOLEAN,
+            defaultValue:false
+        },
+        isPrivate: {
+            type: DataTypes.BOOLEAN,
+            defaultValue:false
+        },
+        emailNotifications:{
+            type: DataTypes.BOOLEAN,
+            defaultValue:true
+        },
+        mobileNotifications:{
+            type: DataTypes.BOOLEAN,
+            defaultValue:true
+        },
+        country:{
+            type: DataTypes.STRING(100),
+            defaultValue: 'US'
+        },
+        city:{
+            type: DataTypes.STRING(100),
+            defaultValue: 'Denver'
+        },
+        state:{
+            type: DataTypes.STRING(100),
+            defaultValue: 'CO'
+        },
     },
+
+    /**
+ * Profile: username, bio, topics, location(city,state,zip)
+ * Account: first name, last name, email, phone number, deactivate
+ * Preferences: language, notifications (phone/email), make private
+ * 
+ */
 
     // const googleId = profile.id;
     //             const email = profile.emails[0].value;
