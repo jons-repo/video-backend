@@ -51,7 +51,7 @@ User.init(
         },
         userName: {
             type: DataTypes.STRING,
-            defaultValue: 'Jenny Craig',
+            defaultValue:'sleekusername91',
             allowNull: false,
         },
         imgUrl: {
@@ -78,6 +78,10 @@ User.init(
             type: DataTypes.STRING(100),
             defaultValue:'I love tennis, movies, music, and more! Let\'s connect!'
         },
+        mobile: {
+            type:DataTypes.STRING(100),
+            defaultValue:'+18009092929'
+        },
         isDeactivated: {
             type: DataTypes.BOOLEAN,
             defaultValue:false
@@ -96,7 +100,7 @@ User.init(
         },
         country:{
             type: DataTypes.STRING(100),
-            defaultValue: 'US'
+            defaultValue: 'United States'
         },
         city:{
             type: DataTypes.STRING(100),
