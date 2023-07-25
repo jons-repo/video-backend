@@ -4,6 +4,7 @@ const router = require('express').Router();
 router.use('/user', require("./user"));
 router.use('/livestreams', require("./livestreams"));
 router.use('/messages', require("./messages"));
+router.use('/follows', require("./follows"));
 
 //404 Handling
 router.use((req, res, next) => {

@@ -19,8 +19,9 @@ const seedMessages = [
 ];
 
 const seedFollows = [
-  { follower: 1, following: 3 }, 
-  { follower: 2, following: 4 }, 
+  { follower: 4, following: 3 }, 
+  { follower: 1, following: 2 }, 
+
 ];
 
 const seed = async () => {
@@ -39,5 +40,4 @@ const seed = async () => {
   }
 };
 
-//only seed once
 seed().then(() => process.exit());

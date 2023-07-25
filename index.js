@@ -7,7 +7,6 @@ const bodyParser = require('body-parser'); //may or may not need
 const db = require('./db');
 const app = express();
 
-
 const http = require('http');
 const {Server } = require("socket.io");
 // app.use(cors());
@@ -142,7 +141,6 @@ io.on("connection", (socket) => {
 
 })
 
-
 server.listen(3001, () => {
     console.log("server running on port 3001");
 })
@@ -198,6 +196,13 @@ const setupPassport = () => {
 const setupRoutes = (app) => {
     app.use('/api', require('./api'));
     app.use('/auth', require('./auth'));
+
+    // 404 Handling - This route should be at the end to handle unknown routes
+    app.use((req, res, next) => {
+        const error = new Error('404 Not Found');
+        error.status = 404;
+        next(error);
+    });
 };
 
 //start server and sync db
