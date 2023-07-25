@@ -27,6 +27,21 @@ router.get('/:id', async(req, res, next) =>{
     }
 });
 
+
+//to get the user data by the email registration via email endpoint
+router.get("/byEmail/:email", async (req, res, next) => {
+    console.log("getting by email");
+    try{
+        const { email } = req.params;
+        const user = await User.findOne({where : { email: email }});
+        // console.log("by email api hit")
+        user? res.status(200).json(user): res.status(404).send('User Not Found');        
+    }
+    catch(error){
+        next(error);
+    }
+})
+
 // router.patch('/:id', async (req, res, next) => {
 //   try {
 //     const { id } = req.params;
