@@ -32,8 +32,8 @@ router.get('/:id', async(req, res, next) =>{
 //add a new message record to the message table (INSERT INTO...VALUES)
 router.post('/', async(req, res, next) => {
     try{
-        const { content, user_id, livestream_id } = req.body;
-        const newMessage= Message.build({content, user_id, livestream_id});
+        const { content, user_id, livestream_id, videochat_id } = req.body;
+        const newMessage= Message.build({content, user_id, livestream_id, videochat_id});
         await newMessage.save();
         res.json(newMessage);
     }
