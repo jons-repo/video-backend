@@ -1,18 +1,18 @@
 const nodemailer = require('nodemailer');
 
-async function sendEmailNotification(emails, subject, text, hostEmail) {
+async function sendEmailNotification(emails, subject, text) {
     try {
         const transporter = nodemailer.createTransport({
             host: 'smtp.elasticemail.com',
             port: 2525,
             auth: {
-                user: 's.jonathan4252@gmail.com',
-                pass: 'F20B35C1488975822809CAC73EEF648C1360', 
+                user: process.env.ELASTICEMAIL_USER,
+                pass: process.env.ELASTICEMAIL_KEY, 
             },
         });
 
         const mailOptions = {
-            from: hostEmail,
+            from: process.env.ELASTICEMAIL_USER,
             to: emails.join(','),
             subject: subject,
             text: text,
