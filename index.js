@@ -6,9 +6,6 @@ const cors = require('cors');
 const bodyParser = require('body-parser'); //may or may not need
 const db = require('./db');
 const app = express();
-const sendEmailNotification = require('./sendNotifications'); 
-const { User } = require('./db/models/user.js');
-
 
 const http = require('http');
 const {Server } = require("socket.io");
@@ -143,46 +140,6 @@ io.on("connection", (socket) => {
     });
 
 })
-
-
-
-app.get('/sendNotifications', async (req, res) => {
-    const { userId } = req.query;
-
-    try {
-        // user who started the stream
-        const user = await User.findByPk(userId);
-
-        if (!user) {
-            return res.status(404).json({ error: 'User not found' });
-        }
-
-        // get followers email addresses from the database
-        const followers = await user.getFollowers();
-
-        // email addresses of followers
-        const recipientEmails = followers.map((follower) => follower.email);
-
-        if (recipientEmails.length === 0) {
-            // If no followers, return error 
-            return res.status(404).json({ error: 'No followers found' });
-        }
-
-        const subject = 'New Livestream Started';
-        const text = 'A new livestream has started!';
-
-        // send email to all followers
-        await sendEmailNotification(recipientEmails, subject, text);
-
-        return res.json({ message: 'Email notifications sent successfully.' });
-    } catch (error) {
-        console.error('Error sending email notifications:', error);
-        return res.status(500).json({ error: 'Internal server error' });
-    }
-});
-
-
-
 
 server.listen(3001, () => {
     console.log("server running on port 3001");
