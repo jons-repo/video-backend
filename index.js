@@ -33,10 +33,10 @@ io.on("connection", (socket) => {
 
     socket.on("host-new-livestream", (data) => {
         socket.join(data.livestreamCode);
-        console.log(`user with id ${socket.id} and name ${data.fullName} created room: ${data.livestreamCode}`);
+        console.log(`user with id ${socket.id} and name ${data.username} created room: ${data.livestreamCode}`);
 
         const newUser = {
-            name: data.fullName,
+            name: data.username,
             socketId: socket.id,
             livestreamCode: data.livestreamCode,
         }
@@ -56,10 +56,10 @@ io.on("connection", (socket) => {
 
     socket.on("join-livestream", (data) => {
         socket.join(data.livestreamCode);
-        console.log(`user with id ${socket.id} and name ${data.fullName} joined room: ${data.livestreamCode}`);
+        console.log(`user with id ${socket.id} and name ${data.username} joined room: ${data.livestreamCode}`);
 
         const newUser = {
-            name: data.fullName,
+            name: data.username,
             socketId: socket.id,
             livestreamCode: data.livestreamCode,
         }
