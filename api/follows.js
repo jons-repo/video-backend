@@ -5,7 +5,7 @@ const sendEmailNotification = require('../sendNotifications');
 
 
 router.get('/sendNotifications', async (req, res) => {
-    const { userId } = req.query;
+    const { userId, livestreamCode } = req.query;
     console.log('api email running');
     try {
         // user who started the stream
@@ -33,10 +33,10 @@ router.get('/sendNotifications', async (req, res) => {
         }
 
         const subject = 'New Livestream Started';
-        const text = 'A new livestream has started!';
+        const text = `A new livestream has started! http://localhost:3000/livestream/${livestreamCode}`;
 
         // send email to all followers
-        await sendEmailNotification(recipientEmails, subject, text, user.email);
+        await sendEmailNotification(recipientEmails, subject, text);
 
         return res.json({ message: 'Email notifications sent successfully.' });
     } catch (error) {
