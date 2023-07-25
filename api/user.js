@@ -27,23 +27,45 @@ router.get('/:id', async(req, res, next) =>{
     }
 });
 
+// router.patch('/:id', async (req, res, next) => {
+//   try {
+//     const { id } = req.params;
+//     const user = await User.findByPk(id);
+//     const updates = req.body;
+
+//     //update the user with all updates that have been submitted
+//     user = { ...user, ...updates };
+
+//     await user.save();
+//     res.send(user);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
 router.put('/:id', async (req, res, next) => {
   try {
+
     const { id } = req.params;
-    const { messageLanguage, siteLanguage, streamLanguage } = req.body;
+    const { firstName, lastName, email, mobile } = req.body;
     const user = await User.findByPk(id);
-
-    if (messageLanguage) {
-      user.messageLanguage = messageLanguage;
-    }
-
-    if (siteLanguage) {
-      user.siteLanguage = siteLanguage;
-    }
-
-    if (streamLanguage) {
-      user.streamLanguage = streamLanguage;
-    }
+    
+    // user.userName = userName ?? user.userName;
+    // user.language = language ?? user.language;
+    // user.bio = bio ?? user.bio;
+    // user.city = city ?? user.city;
+    // user.state = state ?? user.state;
+    user.firstName = firstName ? firstName : user.firstName;
+    user.lastName = lastName ? lastName : user.lastName;
+    user.email = email ? email : user.email;
+    // user.firstName = firstName ?? user.firstName;
+    // user.lastName = lastName ?? user.lastName;
+    // user.email = email ?? user.email;
+    user.mobile = mobile ?? user.mobile;
+    // user.isDeactivated = isDeactivated ?? user.isDeactivated;
+    // user.isPrivate = isPrivate ?? user.isPrivate;
+    // user.mobileNotifications = mobileNotifications ?? user.mobileNotifications;
+    // user.emailNotifications = emailNotifications ?? user.emailNotifications;
 
     await user.save();
     res.send(user);
@@ -51,5 +73,39 @@ router.put('/:id', async (req, res, next) => {
     next(error);
   }
 });
+
+// router.patch('/:id', async (req, res, next) => {
+//   try {
+//     const { id } = req.params;
+//     const { userName, language, bio, city, state, firstName, lastName, email, mobile, isDeactivated, isPrivate, emailNotifications, mobileNotifications } = req.body;
+//     const user = await User.findByPk(id);
+
+//     user.userName = userName ?? user.userName;
+//     user.language = language ?? user.language;
+//     user.bio = bio ?? user.bio;
+//     user.city = city ?? user.city;
+//     user.state = state ?? user.state;
+//     user.firstName = firstName ?? user.firstName;
+//     user.lastName = lastName ?? user.lastName;
+//     user.email = email ?? user.email;
+//     user.mobile = mobile ?? user.mobile;
+//     user.isDeactivated = isDeactivated ?? user.isDeactivated;
+//     user.isPrivate = isPrivate ?? user.isPrivate;
+//     user.mobileNotifications = mobileNotifications ?? user.mobileNotifications;
+//     user.emailNotifications = emailNotifications ?? user.emailNotifications
+
+//     await user.save();
+//     res.send(user);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
+    /**
+ * Profile: username, bio, topics, location(city,state)
+ * Account: first name, last name, email, phone number, deactivate
+ * Preferences: language, notifications (phone/email), make private
+ * 
+ */
 
 module.exports = router;
