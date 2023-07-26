@@ -6,6 +6,8 @@ router.use('/livestreams', require("./livestreams"));
 router.use('/messages', require("./messages"));
 router.use('/follows', require("./follows"));
 router.use('/videochats', require("./videochats"));
+router.use('/turn', require("./turn"));
+
 
 //404 Handling
 router.use((req, res, next) => {

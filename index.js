@@ -39,6 +39,7 @@ io.on("connection", (socket) => {
             name: data.username,
             socketId: socket.id,
             livestreamCode: data.livestreamCode,
+            onlyAudio: data.onlyAudio,
         }
 
         connectedUsers = [...connectedUsers, newUser];
@@ -62,6 +63,7 @@ io.on("connection", (socket) => {
             name: data.username,
             socketId: socket.id,
             livestreamCode: data.livestreamCode,
+            onlyAudio: data.onlyAudio,
         }
 
         connectedUsers = [...connectedUsers, newUser];
