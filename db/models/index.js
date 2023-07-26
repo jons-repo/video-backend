@@ -3,6 +3,7 @@ const Livestream = require('./livestream');
 const User = require('./user');
 const Message = require('./message')
 const Follow = require('./follow');
+const Videochat = require('./videochat');
 
 User.hasOne(Livestream, {
     foreignKey: 'user_id',
@@ -39,9 +40,25 @@ Follow.belongsTo(User, {
     as: 'followingUser',
 });
 
+User.hasOne(Videochat, {
+    foreignKey: 'user_id',
+    as: 'videochat-user',
+})
+
+Videochat.hasMany(Message, {
+    foreignKey: 'videochat_id',
+    as: 'videochat-message',
+});
+
+Message.belongsTo(Videochat, {
+    foreignKey: 'videochat_id',
+    as: 'videochat'
+});
+
 module.exports = {
     User,
     Livestream,
     Message,
     Follow,
+    Videochat,
 };
