@@ -60,27 +60,24 @@ router.get("/byEmail/:email", async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
   try {
-
     const { id } = req.params;
-    const { firstName, lastName, email, mobile } = req.body;
+    const { userName, firstName, lastName, email, mobile, country, state, city, bio, language, isDeactivated, isPrivate, mobileNotifications, emailNotifications } = req.body;
     const user = await User.findByPk(id);
     
-    // user.userName = userName ?? user.userName;
-    // user.language = language ?? user.language;
-    // user.bio = bio ?? user.bio;
-    // user.city = city ?? user.city;
-    // user.state = state ?? user.state;
-    user.firstName = firstName ? firstName : user.firstName;
-    user.lastName = lastName ? lastName : user.lastName;
-    user.email = email ? email : user.email;
-    // user.firstName = firstName ?? user.firstName;
-    // user.lastName = lastName ?? user.lastName;
-    // user.email = email ?? user.email;
+    user.userName = userName ?? user.userName;
+    user.language = language ?? user.language;
+    user.bio = bio ?? user.bio;
+    user.city = city ?? user.city;
+    user.state = state ?? user.state;
+    user.firstName = firstName ?? user.firstName;
+    user.lastName = lastName ?? user.lastName;
+    user.email = email ?? user.email;
+    user.country = country ?? user.country;
     user.mobile = mobile ?? user.mobile;
-    // user.isDeactivated = isDeactivated ?? user.isDeactivated;
-    // user.isPrivate = isPrivate ?? user.isPrivate;
-    // user.mobileNotifications = mobileNotifications ?? user.mobileNotifications;
-    // user.emailNotifications = emailNotifications ?? user.emailNotifications;
+    user.isDeactivated = isDeactivated ?? user.isDeactivated;
+    user.isPrivate = isPrivate ?? user.isPrivate;
+    user.mobileNotifications = mobileNotifications ?? user.mobileNotifications;
+    user.emailNotifications = emailNotifications ?? user.emailNotifications;
 
     await user.save();
     res.send(user);
