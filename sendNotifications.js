@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const twilio = require('twilio');
 
 async function sendEmailNotification(emails, subject, text) {
     try {
@@ -7,7 +8,7 @@ async function sendEmailNotification(emails, subject, text) {
             port: 2525,
             auth: {
                 user: process.env.ELASTICEMAIL_USER,
-                pass: process.env.ELASTICEMAIL_KEY, 
+                pass: process.env.ELASTICEMAIL_KEY,
             },
         });
 
@@ -26,4 +27,25 @@ async function sendEmailNotification(emails, subject, text) {
     }
 }
 
-module.exports = sendEmailNotification;
+async function sendTextNotification(phoneNumbers, livestreamCode) {
+    console.log(process.env.TWILIO_SID, "string");
+    const client = twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
+    console.log(process.env.TWILIO_SID, "string");
+    const text = `A new livestream has started! http://localhost:3000/livestream/${livestreamCode}`;
+    try {
+
+        for (const phoneNumber of phoneNumbers) {
+            await client.messages.create({
+                body: text,
+                from: process.env.TWILIO_PHONE_NUMBER,
+                to: phoneNumber,
+            });
+        }
+
+        console.log('Text sent');
+    } catch (error) {
+        console.error('Error sending text', error);
+    }
+}
+
+module.exports = { sendEmailNotification, sendTextNotification};

@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { User } = require('../db/models');
 const {Follow} = require('../db/models');
-const sendEmailNotification = require('../sendNotifications'); 
+const { sendEmailNotification, sendTextNotification } = require('../sendNotifications'); 
 
 
 router.get('/sendNotifications', async (req, res) => {
@@ -10,13 +10,13 @@ router.get('/sendNotifications', async (req, res) => {
     try {
         // user who started the stream
         const user = await User.findByPk(userId);
-        
+
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
 
         // get followers email addresses from the database
-        const follows = await Follow.findAll({where: {following: userId}});
+        const follows = await Follow.findAll({ where: { following: userId } });
         console.log(follows);
 
         // email addresses of followers
@@ -42,6 +42,35 @@ router.get('/sendNotifications', async (req, res) => {
     } catch (error) {
         console.error('Error sending email notifications:', error);
         return res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
+router.get('/phoneNumbers', async (req, res) => {
+    const { userId, livestreamCode } = req.query;
+    try {
+
+        // const follows = await Follow.findAll({
+        //     where: { following: userId },
+        //     // include: [{ model: User, as: 'followerUser', attributes: ['mobile'] }],
+        // });
+
+        // const phoneNumbers = followers.map((follower) => follower.user_id.mobile);
+
+        const follows = await Follow.findAll({ where: { following: userId } });
+        console.log(follows);
+
+        // email addresses of followers
+        const follower_ids = follows.map((follow) => follow.follower);
+        const recipientUsers = await Promise.all(follower_ids.map(async (user_id) => await User.findByPk(user_id)));
+        const recipientMobiles = recipientUsers.map((recipientUser) => recipientUser.mobile);
+        console.log(recipientMobiles);
+        console.log(livestreamCode);
+        await sendTextNotification(recipientMobiles, livestreamCode);
+
+        res.json({ message: 'Text message sent' });
+    } catch (error) {
+        console.error(error);
     }
 });
 
