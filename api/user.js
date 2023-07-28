@@ -15,6 +15,7 @@ router.get('/allUsers', async (req, res, next)=>{
     }
 });
 
+
 //get a single user by id/pk (SELECT * FROM students WHERE id = pk)
 router.get('/:id', async(req, res, next) =>{
     try{
@@ -24,6 +25,21 @@ router.get('/:id', async(req, res, next) =>{
 
     } catch (error){
         next(error);
+    }
+});
+
+router.post("/", async(req, res, next) => {
+    console.log("hit post user route");
+    try{
+        const { email, imgUrl, firstName, lastName } = req.body;
+        console.log("req.body: " + req.body);
+        const newUser= User.build({email, imgUrl, firstName, lastName});
+        await newUser.save();
+            
+        res.json(newUser);
+    }
+    catch(error){
+        console.log(error);
     }
 });
 
