@@ -2,6 +2,95 @@ const crypto = require('crypto'); //will be used for encrypting (salting+hashing
 const {Model, DataTypes} = require('sequelize');
 const db = require("../db");
 
+// const { DataTypes } = require('sequelize');
+// const db = require('../db');
+
+// //define takes in name of model, and then an object for each column of table
+// const User = db.define('user', {
+//     email:{
+//         type: DataTypes.STRING,
+//         unique: true,
+//         allowNull: false,
+//         validate: {
+//             isEmail: true,
+//         }
+//     },
+//     password: {
+//         type: DataTypes.STRING,
+//     },
+//     firstName: {
+//         type: DataTypes.STRING,
+//         defaultValue: 'Jenny',
+//         allowNull: false,
+//     },
+//     lastName: {
+//         type: DataTypes.STRING,
+//         defaultValue: 'Craig',
+//         allowNull: false,
+//     },
+//     userName: {
+//         type: DataTypes.STRING,
+//         defaultValue:'sleekusername91',
+//         allowNull: false,
+//     },
+//     imgUrl: {
+//         type: DataTypes.STRING(1000),
+//         defaultValue: "https://i0.wp.com/cfe.umich.edu/wp-content/uploads/2015/09/blank-profile.jpg?fit=4016%2C2677&ssl=1",
+//     },
+//     salt: { //salt is needed to run the encryption again, each user will have unique salt
+//         type: DataTypes.STRING
+//     },
+//     googleId: { //for OAuth
+//         type: DataTypes.STRING,
+//     },
+//     isAdmin: {
+//         type: DataTypes.BOOLEAN,
+//         allowNull: false,
+//         defaultValue: false,
+//     },
+//     language:{
+//         type: DataTypes.STRING,
+//         allowNull: false,
+//         defaultValue: 'EN',
+//     },
+//     bio: {
+//         type: DataTypes.STRING(100),
+//         defaultValue:'I love tennis, movies, music, and more! Let\'s connect!'
+//     },
+//     mobile: {
+//         type:DataTypes.STRING(100),
+//         defaultValue:'+18009092929'
+//     },
+//     isDeactivated: {
+//         type: DataTypes.BOOLEAN,
+//         defaultValue:false
+//     },
+//     isPrivate: {
+//         type: DataTypes.BOOLEAN,
+//         defaultValue:false
+//     },
+//     emailNotifications:{
+//         type: DataTypes.BOOLEAN,
+//         defaultValue:true
+//     },
+//     mobileNotifications:{
+//         type: DataTypes.BOOLEAN,
+//         defaultValue:true
+//     },
+//     country:{
+//         type: DataTypes.STRING(100),
+//         defaultValue: 'United States'
+//     },
+//     city:{
+//         type: DataTypes.STRING(100),
+//         defaultValue: 'Denver'
+//     },
+//     state:{
+//         type: DataTypes.STRING(100),
+//         defaultValue: 'CO'
+//     },
+// })
+
 
 //defining the class
 class User extends Model {
