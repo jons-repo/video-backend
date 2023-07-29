@@ -7,8 +7,8 @@ router.use('/messages', require("./messages"));
 router.use('/follows', require("./follows"));
 router.use('/videochats', require("./videochats"));
 router.use('/turn', require("./turn"));
-router.use('/recordings', require("./recordings"))
-
+router.use('/recordings', require("./recordings"));
+router.use('/explore', require("./explore"));
 
 //404 Handling
 router.use((req, res, next) => {

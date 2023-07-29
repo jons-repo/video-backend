@@ -1,4 +1,5 @@
-const router = require('express').Router();
+const express = require('express');
+const router = express.Router();
 const { User } = require('../db/models');
 const {Follow} = require('../db/models');
 const { sendEmailNotification, sendTextNotification } = require('../sendNotifications'); 
@@ -73,5 +74,34 @@ router.get('/phoneNumbers', async (req, res) => {
         console.error(error);
     }
 });
+
+router.post('/', async (req, res) => {
+  const { loggedInUserId, userId } = req.body;
+  try {
+    await Follow.create({
+      follower: loggedInUserId,
+      following: userId,
+    });
+    res.json({ message: 'user followed ' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'failed to follow user' });
+  }
+});
+
+router.delete('/', async (req, res) => {
+  const { loggedInUserId, userId } = req.body;
+  try {
+    await Follow.destroy({
+      where: { follower: loggedInUserId, following: userId },
+    });
+    res.json({ message: 'user unfollowed successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'failed to unfollow user' });
+  }
+});
+
+
 
 module.exports = router;
