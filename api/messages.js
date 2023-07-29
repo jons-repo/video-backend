@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { Message } = require('../db/models');
 
-// root: http://localhost/3001/api/messages
+// root: http://localhost:3001/api/messages
 
 //get all messages from the messages table (SELECT * FROM messages)
 router.get('/', async (req, res, next) => {
