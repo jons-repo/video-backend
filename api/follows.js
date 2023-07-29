@@ -1,4 +1,5 @@
-const router = require('express').Router();
+const express = require('express');
+const router = express.Router();
 const { User } = require('../db/models');
 const {Follow} = require('../db/models');
 const { sendEmailNotification, sendTextNotification } = require('../sendNotifications'); 
@@ -74,8 +75,8 @@ router.get('/phoneNumbers', async (req, res) => {
     }
 });
 
-router.post('/:loggedInUserId/:userId', async (req, res) => {
-  const { loggedInUserId, userId } = req.params;
+router.post('/', async (req, res) => {
+  const { loggedInUserId, userId } = req.body;
   try {
     await Follow.create({
       follower: loggedInUserId,
@@ -88,8 +89,8 @@ router.post('/:loggedInUserId/:userId', async (req, res) => {
   }
 });
 
-router.delete('/:loggedInUserId/:userId', async (req, res) => {
-  const { loggedInUserId, userId } = req.params;
+router.delete('/', async (req, res) => {
+  const { loggedInUserId, userId } = req.body;
   try {
     await Follow.destroy({
       where: { follower: loggedInUserId, following: userId },
