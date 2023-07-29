@@ -74,4 +74,33 @@ router.get('/phoneNumbers', async (req, res) => {
     }
 });
 
+router.post('/:loggedInUserId/:userId', async (req, res) => {
+  const { loggedInUserId, userId } = req.params;
+  try {
+    await Follow.create({
+      follower: loggedInUserId,
+      following: userId,
+    });
+    res.json({ message: 'user followed ' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'failed to follow user' });
+  }
+});
+
+router.delete('/:loggedInUserId/:userId', async (req, res) => {
+  const { loggedInUserId, userId } = req.params;
+  try {
+    await Follow.destroy({
+      where: { follower: loggedInUserId, following: userId },
+    });
+    res.json({ message: 'user unfollowed successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'failed to unfollow user' });
+  }
+});
+
+
+
 module.exports = router;
