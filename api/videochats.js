@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { Videochat } = require('../db/models');
 
-// root: http://localhost/3001/api/videochats
+// root: http://localhost:3001/api/videochats
 
 //get all videochats from the videochat table (SELECT * FROM videochats)
 router.get('/', async (req, res, next) => {

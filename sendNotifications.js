@@ -28,21 +28,28 @@ async function sendEmailNotification(emails, subject, text) {
 }
 
 async function sendTextNotification(phoneNumbers, livestreamCode) {
-    console.log(process.env.TWILIO_SID, "string");
     const client = twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
-    console.log(process.env.TWILIO_SID, "string");
-    const text = `A new livestream has started! http://localhost:3000/livestream/${livestreamCode}`;
     try {
-
-        for (const phoneNumber of phoneNumbers) {
-            await client.messages.create({
-                body: text,
-                from: process.env.TWILIO_PHONE_NUMBER,
-                to: phoneNumber,
-            });
+        for (const phoneNumber of phoneNumbers){
+            client.messages
+            .create({
+                body: `Fuse Video: Someone you follow has started a new livestream. Livestream code: ${livestreamCode}`,
+                from: 'whatsapp:+14155238886',
+                to: `whatsapp:${phoneNumber}`
+            })
+            .then(message => console.log(message.sid))
         }
 
-        console.log('Text sent');
+        // for (const phoneNumber of phoneNumbers) {
+        //     const message = await client.messages.create({
+        //         body: text,
+        //         from: process.env.TWILIO_PHONE_NUMBER,
+        //         to:  'whatsapp:+16467059723',
+        //     });
+        //     console.log(message.sid)
+        // }
+
+        // console.log('Text sent');
     } catch (error) {
         console.error('Error sending text', error);
     }

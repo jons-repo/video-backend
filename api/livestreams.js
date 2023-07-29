@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { Livestream } = require('../db/models');
 
-// root: http://localhost/3001/api/livestreams
+// root: http://localhost:3001/api/livestreams
 
 //get all livestream from the livestream table (SELECT * FROM livestreams)
 router.get('/', async (req, res, next) => {
@@ -29,6 +29,7 @@ router.get('/:id', async(req, res, next) =>{
     }
 });
 
+//get a livestream by livestream code
 router.get("/byCode/:code", async (req, res, next) => {
     console.log("getting by code");
     try{
