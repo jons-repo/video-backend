@@ -60,8 +60,8 @@ router.get("/byLivestream/:id", async (req, res, next) => {
 router.post('/', async(req, res, next) => {
     // console.log("posting new recording");
     try{
-        const { blobUrl, downloadUrl, user_id, livestream_id } = req.body;
-        const newRecording= Recording.build({blobUrl, downloadUrl, user_id, livestream_id});
+        const { blobUrl, downloadUrl, user_id, livestream_id, title, creator } = req.body;
+        const newRecording= Recording.build({blobUrl, downloadUrl, user_id, livestream_id, title, creator});
         await newRecording.save();
         
         res.json(newRecording);
