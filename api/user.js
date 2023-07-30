@@ -77,7 +77,7 @@ router.get("/byEmail/:email", async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { userName, firstName, lastName, email, mobile, country, state, city, bio, language, isDeactivated, isPrivate, mobileNotifications, emailNotifications } = req.body;
+    const { userName, firstName, lastName, email, imgUrl, mobile, country, state, city, bio, language, isDeactivated, isPrivate, mobileNotifications, emailNotifications } = req.body;
     const user = await User.findByPk(id);
     
     user.userName = userName ?? user.userName;
@@ -88,6 +88,7 @@ router.put('/:id', async (req, res, next) => {
     user.firstName = firstName ?? user.firstName;
     user.lastName = lastName ?? user.lastName;
     user.email = email ?? user.email;
+    user.imgUrl = imgUrl ?? user.imgUrl;
     user.country = country ?? user.country;
     user.mobile = mobile ?? user.mobile;
     user.isDeactivated = isDeactivated ?? user.isDeactivated;
