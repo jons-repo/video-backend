@@ -18,6 +18,28 @@ router.get('/followers/:userId', async (req, res) => {
   }
 });
 
+// API endpoint to get an array of userIds followed by the logged in user (by logged in userId)
+router.get('/followings/:userId', async (req, res) => {
+  console.log("hit followings route")
+  try {
+    const { userId } = req.params;
+    // console.log(userId,'is the user id from the api');
+    const followings = await Follow.findAll({
+      where: { follower: userId },
+    });
+    let followingsArray = [];
+    followings.map((following) => {
+      followingsArray = [...followingsArray, following.following];
+    })
+    console.log(followingsArray);
+    return res.send(followingsArray);
+    return res.json(followings);
+  } catch (error) {
+    console.error('Error fetching followers:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 router.get('/sendNotifications', async (req, res) => {
     const { userId, livestreamCode } = req.query;
     try {
