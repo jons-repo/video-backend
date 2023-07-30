@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { User } = require('../db/models');
-const {Follow} = require('../db/models');
+const { User, Follow } = require('../db/models');
 const { sendEmailNotification, sendTextNotification } = require('../sendNotifications'); 
 
 // API endpoint to get followers for a user by their ID
@@ -9,12 +8,12 @@ router.get('/followers/:userId', async (req, res) => {
   console.log('follow api hit');
   try {
     const { userId } = req.params;
-    console.log(userId,'is the user id from the api');
+    // console.log(userId,'is the user id from the api');
     const followers = await Follow.findAll({
       where: { following: userId },
     });
-    console.log(followers,'are the followers found')
-    console.log('user' + userId + 'has ' + followers + 'followers');
+    // console.log(followers,'are the followers found')
+    // console.log('user' + userId + 'has ' + followers + 'followers');
     return res.json(followers);
   } catch (error) {
     console.error('Error fetching followers:', error);

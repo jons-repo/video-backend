@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User } = require('../db/models');
+const { User, Follow } = require('../db/models');
 
 //mounted on api/user
 // http://localhost:3001/api/user
@@ -26,6 +26,42 @@ router.get('/:id', async(req, res, next) =>{
     } catch (error){
         next(error);
     }
+});
+
+router.get("/viewProfile/:id", async (req, res, next) => {
+  try {
+    //the id of the user to be viewed
+    const { id } = req.params;
+    //this is the user making the request
+    const { accessingUserId } = req.query;
+    // Get a specific user's profile
+    const viewUser = await User.findByPk(id);
+    if (!viewUser) {
+        return res.status(404).send("User not found");
+    }
+    // to get all the followers of the view user profile
+    const viewUserFollowers = await Follow.findAll({
+        where: { following: id},
+    });
+    // get all followers of the accessing user
+    const accessingUserFollowers = await Follow.findAll({
+        where: { following: accessingUserId },
+    });
+
+    //find the mutual followers
+
+    const mutualFollowers = viewUserFollowers.filter((_follower) => accessingUserFollowers.some(
+        (accessingUserFollower) => accessingUserFollower.follower === _follower.follower
+    ));
+
+    return res.status(200).json({
+        viewUser,
+        viewUserFollowers,
+        mutualFollowers,
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.post("/", async(req, res, next) => {
