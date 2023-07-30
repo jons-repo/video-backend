@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User } = require('../db/models');
+const { User, Follow } = require('../db/models');
 
 //mounted on api/user
 // http://localhost:3001/api/user
@@ -26,6 +26,58 @@ router.get('/:id', async(req, res, next) =>{
     } catch (error){
         next(error);
     }
+});
+
+router.get("/viewProfile/:id", async (req, res, next) => {
+  try {
+    //the id of the user to be viewed
+    const { id } = req.params;
+    //this is the user making the request
+    const { loggedInUserId } = req.query;
+    console.log(loggedInUserId,'ACCESSING USER ID')
+    // Get a specific user's profile
+    const viewUser = await User.findByPk(id);
+    if (!viewUser) {
+        return res.status(404).send("User not found");
+    }
+    console.log(viewUser.id,'VIEW USER');
+    // to get all the followers of the view user profile
+    const viewUserFollowersCount = await Follow.count({
+        where: { following: viewUser.id},
+    });
+
+    // get all followers of the accessing user
+    const loggedInUserFollowersCount = await Follow.count({
+        where: { following: loggedInUserId },
+    });
+    //find the mutual followers
+
+
+    // Get all followers of the accessing user
+    const loggedInUserFollowers = await Follow.findAll({
+    where: { following: loggedInUserId },
+    });
+
+console.log(loggedInUserFollowers,'LOGGED IN USER\'s FOLLOWERS');
+const viewUserFollowers = await Follow.findAll({
+  where: { following: viewUser.id },
+});
+
+// Find the intersection of followers
+const loggedInUserFollowerIds = loggedInUserFollowers.map((follower) => follower.follower.id);
+const mutualFollowers = viewUserFollowers.filter((follower) => loggedInUserFollowerIds.includes(follower.follower.id));
+    console.log(mutualFollowers,'MUTUAL FOLLOWERS')
+    console.log(viewUserFollowers,'VIEW USER FOLLOWERS');
+
+    return res.status(200).json({
+        viewUser,
+        viewUserFollowers,
+        mutualFollowers,
+        viewUserFollowersCount
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.post("/", async(req, res, next) => {
