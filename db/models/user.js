@@ -189,7 +189,7 @@ User.init(
         },
         country:{
             type: DataTypes.STRING(100),
-            defaultValue: 'United States'
+            defaultValue: 'US'
         },
         city:{
             type: DataTypes.STRING(100),
