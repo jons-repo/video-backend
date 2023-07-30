@@ -31,7 +31,7 @@ router.get('/:id', async(req, res, next) =>{
 
 //get a livestream by livestream code
 router.get("/byCode/:code", async (req, res, next) => {
-    console.log("getting by code");
+    // console.log("getting by code");
     try{
         const {code} = req.params;
         const livestream = await Livestream.findOne({where : { code: code }});

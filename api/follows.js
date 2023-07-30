@@ -5,15 +5,12 @@ const { sendEmailNotification, sendTextNotification } = require('../sendNotifica
 
 // API endpoint to get followers for a user by their ID
 router.get('/followers/:userId', async (req, res) => {
-  console.log('follow api hit');
   try {
     const { userId } = req.params;
     // console.log(userId,'is the user id from the api');
     const followers = await Follow.findAll({
       where: { following: userId },
     });
-    // console.log(followers,'are the followers found')
-    // console.log('user' + userId + 'has ' + followers + 'followers');
     return res.json(followers);
   } catch (error) {
     console.error('Error fetching followers:', error);
@@ -23,7 +20,6 @@ router.get('/followers/:userId', async (req, res) => {
 
 router.get('/sendNotifications', async (req, res) => {
     const { userId, livestreamCode } = req.query;
-    console.log('api email running');
     try {
         // user who started the stream
         const user = await User.findByPk(userId);
@@ -34,15 +30,15 @@ router.get('/sendNotifications', async (req, res) => {
 
         // get followers email addresses from the database
         const follows = await Follow.findAll({ where: { following: userId } });
-        console.log(follows);
+        // console.log(follows);
 
         // email addresses of followers
         const follower_ids = follows.map((follow) => follow.follower);
         const recipientUsers = await Promise.all(follower_ids.map(async (user_id) => await User.findByPk(user_id)));
         const recipientEmails = recipientUsers.map((recipientUser) => recipientUser.email);
-        console.log(follower_ids);
-        console.log(recipientUsers);
-        console.log(recipientEmails);
+        // console.log(follower_ids);
+        // console.log(recipientUsers);
+        // console.log(recipientEmails);
 
         if (recipientEmails.length === 0) {
             // If no followers, return error 
