@@ -10,6 +10,14 @@ const Recording = db.define('recording', {
     downloadUrl: {
         type: DataTypes.STRING,
         allowNull: false,
+    },
+    title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    creator: {
+        type: DataTypes.STRING,
+        allowNull: false,
     }
 })
 
