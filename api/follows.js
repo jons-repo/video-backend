@@ -3,15 +3,38 @@ const router = express.Router();
 const { User, Follow } = require('../db/models');
 const { sendEmailNotification, sendTextNotification } = require('../sendNotifications'); 
 
-// API endpoint to get followers for a user by their ID
+// // API endpoint to get followers for a user by their ID
+// router.get('/followers/:userId', async (req, res) => {
+//   try {
+//     const { userId } = req.params;
+//     // console.log(userId,'is the user id from the api');
+//     const followers = await Follow.findAll({
+//       where: { following: userId },
+//     });
+//     return res.json(followers);
+//   } catch (error) {
+//     console.error('Error fetching followers:', error);
+//     return res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
+
+// API endpoint to get an array of userIds following the logged in user (by logged in userId)
 router.get('/followers/:userId', async (req, res) => {
+  console.log("hit followers route")
   try {
     const { userId } = req.params;
-    // console.log(userId,'is the user id from the api');
+
     const followers = await Follow.findAll({
       where: { following: userId },
     });
-    return res.json(followers);
+
+    let followersArray = [];
+    followers.map((follower) => {
+      followersArray = [...followersArray, follower.follower];
+    })
+    console.log(followersArray);
+    return res.send(followersArray);
+
   } catch (error) {
     console.error('Error fetching followers:', error);
     return res.status(500).json({ error: 'Internal server error' });
@@ -20,20 +43,20 @@ router.get('/followers/:userId', async (req, res) => {
 
 // API endpoint to get an array of userIds followed by the logged in user (by logged in userId)
 router.get('/followings/:userId', async (req, res) => {
-  console.log("hit followings route")
   try {
     const { userId } = req.params;
-    // console.log(userId,'is the user id from the api');
+
     const followings = await Follow.findAll({
       where: { follower: userId },
     });
+
     let followingsArray = [];
     followings.map((following) => {
       followingsArray = [...followingsArray, following.following];
     })
-    console.log(followingsArray);
+
     return res.send(followingsArray);
-    return res.json(followings);
+
   } catch (error) {
     console.error('Error fetching followers:', error);
     return res.status(500).json({ error: 'Internal server error' });
