@@ -2,10 +2,10 @@ const db = require('./db');
 const {User, Livestream, Message, Follow, Videochat} = require ('./db/models');
 
 const seedUsers = [
-    {email: 'john.doe@gmail.com', password: 'tofu123', isAdmin: true, firstName: 'John', lastName: 'Doe', userName: 'johndo123'},
-    {email: 'jane.doe@gmail.com', password: 'tomato456', isAdmin: false, firstName: 'Jane', lastName: 'Doe', userName: 'janedo123'},
-    {email: 'lily.rose@gmail.com', password: 'sprinkles789', firstName: 'Lily', lastName:'Rose', userName:'lilro123'},
-    {email: 'tom.hanks@gmail.com', password: 'tom123', firstName: 'Tom', lastName:'Hanks', userName:'tommyh123'},
+    {email: 'john.doe@gmail.com', password: 'tofu123', isAdmin: true, firstName: 'John', lastName: 'Doe', userName: 'johndo123',country:'US',language:'EN'},
+    {email: 'jane.doe@gmail.com', password: 'tomato456', isAdmin: false, firstName: 'Jane', lastName: 'Doe', userName: 'janedo123',country:'DE',language:'DE'},
+    {email: 'lily.rose@gmail.com', password: 'sprinkles789', firstName: 'Lily', lastName:'Rose', userName:'lilro123',country:'NL',language:'NL'},
+    {email: 'tom.hanks@gmail.com', password: 'tom123', firstName: 'Tom', lastName:'Hanks', userName:'tommyh123',country:'KR',language:'ES'},
 ];
 
 const seedLivestreams = [
