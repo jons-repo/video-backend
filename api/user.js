@@ -33,31 +33,47 @@ router.get("/viewProfile/:id", async (req, res, next) => {
     //the id of the user to be viewed
     const { id } = req.params;
     //this is the user making the request
-    const { accessingUserId } = req.query;
+    const { loggedInUserId } = req.query;
+    console.log(loggedInUserId,'ACCESSING USER ID')
     // Get a specific user's profile
     const viewUser = await User.findByPk(id);
     if (!viewUser) {
         return res.status(404).send("User not found");
     }
+    console.log(viewUser.id,'VIEW USER');
     // to get all the followers of the view user profile
-    const viewUserFollowers = await Follow.findAll({
-        where: { following: id},
-    });
-    // get all followers of the accessing user
-    const accessingUserFollowers = await Follow.findAll({
-        where: { following: accessingUserId },
+    const viewUserFollowersCount = await Follow.count({
+        where: { following: viewUser.id},
     });
 
+    // get all followers of the accessing user
+    const loggedInUserFollowersCount = await Follow.count({
+        where: { following: loggedInUserId },
+    });
     //find the mutual followers
 
-    const mutualFollowers = viewUserFollowers.filter((_follower) => accessingUserFollowers.some(
-        (accessingUserFollower) => accessingUserFollower.follower === _follower.follower
-    ));
+
+    // Get all followers of the accessing user
+    const loggedInUserFollowers = await Follow.findAll({
+    where: { following: loggedInUserId },
+    });
+
+console.log(loggedInUserFollowers,'LOGGED IN USER\'s FOLLOWERS');
+const viewUserFollowers = await Follow.findAll({
+  where: { following: viewUser.id },
+});
+
+// Find the intersection of followers
+const loggedInUserFollowerIds = loggedInUserFollowers.map((follower) => follower.follower.id);
+const mutualFollowers = viewUserFollowers.filter((follower) => loggedInUserFollowerIds.includes(follower.follower.id));
+    console.log(mutualFollowers,'MUTUAL FOLLOWERS')
+    console.log(viewUserFollowers,'VIEW USER FOLLOWERS');
 
     return res.status(200).json({
         viewUser,
         viewUserFollowers,
         mutualFollowers,
+        viewUserFollowersCount
     });
   } catch (error) {
     next(error);
