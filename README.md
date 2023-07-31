@@ -4,7 +4,7 @@
 
 ## Endpoints
 
-root: https://video-backend-6mkl.onrender.com/api
+root: https://fuse-video-backend.onrender.com/
 
 ### Users
 
