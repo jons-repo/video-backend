@@ -5,6 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser'); //may or may not need
 const db = require('./db');
 const app = express();
+const pg = require("pg");
 
 require("dotenv").config();
 
@@ -15,7 +16,7 @@ require("dotenv").config();
     app.use(express.json());
     app.use(express.urlencoded({extended: true}));
     app.use(cors({
-        origin: "https://64c73bcda9a8730007e55ce1--cosmic-pony-664c88.netlify.app/", // allow to server to accept request from different origin
+        origin: "https://64c73bcda9a8730007e55ce1--cosmic-pony-664c88.netlify.app", // allow to server to accept request from different origin
         methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
         credentials: true,
     }));
