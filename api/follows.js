@@ -87,7 +87,7 @@ router.get('/sendNotifications', async (req, res) => {
 
         if (recipientEmails.length === 0) {
             // If no followers, return error 
-            return res.status(404).json({ error: 'No followers found' });
+            return res.status(200).json({ error: 'No followers found' });
         }
 
         const subject = 'New Livestream Started';

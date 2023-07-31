@@ -8,6 +8,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser'); //may or may not need
 const db = require('./db');
 const app = express();
+const pg = require("pg");
 
 
 

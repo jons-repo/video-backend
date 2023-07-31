@@ -4,7 +4,7 @@
 
 ## Endpoints
 
-root: ${process.env.REACT_APP_BACKEND_URL}/api
+root: https://video-backend-6mkl.onrender.com/api
 
 ### Users
 

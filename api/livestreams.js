@@ -1,8 +1,7 @@
 const router = require('express').Router();
 const { Livestream } = require('../db/models');
 
-// root: ${process.env.REACT_APP_BACKEND_URL}/api/livestreams
-
+// root: https://video-backend-6mkl.onrender.com/api/livestreams
 //get all livestream from the livestream table (SELECT * FROM livestreams)
 router.get('/', async (req, res, next) => {
     try{
@@ -11,7 +10,6 @@ router.get('/', async (req, res, next) => {
 
     }
     catch(error){
-        // console.log(error.message);
         next(error);
     }
 })
@@ -22,7 +20,7 @@ router.get('/:id', async(req, res, next) =>{
     try{
         const { id } = req.params;
         const livestream = await Livestream.findByPk(id);
-        livestream? res.status(200).json(livestream): res.status(404).send('Livestream Not Found');
+        livestream? res.status(200).json(livestream): res.status(404).send('Livestream Was Not Found');
 
     } catch (error){
         next(error);
