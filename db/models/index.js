@@ -46,6 +46,10 @@ User.hasOne(Videochat, {
     as: 'videochat-user',
 })
 
+Videochat.belongsTo(User, {
+    foreignKey: 'user_id',
+})
+
 Videochat.hasMany(Message, {
     foreignKey: 'videochat_id',
     as: 'videochat-message',

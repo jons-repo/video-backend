@@ -1,3 +1,6 @@
+//dotenv at top -> 
+require("dotenv").config();
+
 const express = require('express');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
@@ -7,7 +10,7 @@ const db = require('./db');
 const app = express();
 const pg = require("pg");
 
-require("dotenv").config();
+
 
 //will create a session store and pass in our database
 // const sessionStore = new SequelizeStore({ db });
@@ -16,13 +19,23 @@ require("dotenv").config();
     app.use(express.json());
     app.use(express.urlencoded({extended: true}));
     app.use(cors({
-        origin: "https://64c73bcda9a8730007e55ce1--cosmic-pony-664c88.netlify.app", // allow to server to accept request from different origin
+        //production front end url
+        origin: process.env.FRONTEND_URL || "http://localhost:3000", // allow to server to accept request from different origin
         methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
         credentials: true,
+        allowedHeaders:
+        "Authorization, X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
+      preflightContinue: true,
     }));
+
+    app.enable("trust proxy");
 
 //Mounting on routes
     app.use('/api', require('./api'));
+
+    app.get("/", (req, res, next) => {
+        res.send("Hitting backend success!")
+    })
 
     // 404 Handling - This route should be at the end to handle unknown routes
     app.use((req, res, next) => {

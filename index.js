@@ -1,14 +1,18 @@
-
 const app = require ("./app");
 const http = require('http');
-const {Server } = require("socket.io");
-// app.use(cors());
+const { Server } = require("socket.io");
+
+const PORT = process.env.PORT || 3001
 
 const server = http.createServer(app);
 const io = new Server (server, {
     cors: {
-        origin: "https://64c73bcda9a8730007e55ce1--cosmic-pony-664c88.netlify.app",
+        origin: process.env.FRONTEND_URL || "http://localhost:3000",
         methods: ["GET", "POST"],
+        credentials: true,
+        allowedHeaders:
+        "Authorization, X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
+      preflightContinue: true,
     }
 });
 // const io = new Server(server);
@@ -136,6 +140,6 @@ io.on("connection", (socket) => {
 
 })
 
-server.listen(3001, () => {
+server.listen(PORT, () => {
     console.log("server running on port 3001");
 })
