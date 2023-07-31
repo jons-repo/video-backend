@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { Videochat } = require('../db/models');
 
-// root: http://localhost:3001/api/videochats
+// root: https://video-backend-6mkl.onrender.com/api/videochats
 
 //get all videochats from the videochat table (SELECT * FROM videochats)
 router.get('/', async (req, res, next) => {

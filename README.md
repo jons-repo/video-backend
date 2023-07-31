@@ -3,7 +3,9 @@
 [Frontend Repository](https://github.com/andreatranchina/fuse-video)
 
 ## Endpoints
-root: http://localhost:3001/api
+
+root: https://video-backend-6mkl.onrender.com/api
+
 ### Users
 
 - `GET /user/allUsers`: Get all users from the database.
@@ -62,7 +64,6 @@ root: http://localhost:3001/api
 
 - `DELETE /messages/:id`: Deletes a message record by its ID.
 
-
 ## Setup Instructions
 
 To set up the backend on your local machine, follow these steps:
@@ -70,9 +71,8 @@ To set up the backend on your local machine, follow these steps:
 1. Install the necessary dependencies using `npm i`.
 
 2. Set up a .env file and use the your own API keys:
-   
-  `
-  GOOGLE_ID= 
+
+`  GOOGLE_ID= 
   GOOGLE_CLIENT_SECRET= 
   GOOGLE_CALLBACK_URL= 
   ELASTICEMAIL_USER= 
@@ -80,7 +80,7 @@ To set up the backend on your local machine, follow these steps:
   TWILIO_SID= 
   TWILIO_AUTH_TOKEN= 
   TWILIO_PHONE_NUMBER= 
-  `
+ `
 
 4. Start the server using `npm start`.
 

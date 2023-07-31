@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { Livestream } = require('../db/models');
 
-// root: http://localhost:3001/api/livestreams
+// root: https://video-backend-6mkl.onrender.com/api/livestreams
 
 //get all livestream from the livestream table (SELECT * FROM livestreams)
 router.get('/', async (req, res, next) => {

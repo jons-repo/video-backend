@@ -15,7 +15,7 @@ require("dotenv").config();
     app.use(express.json());
     app.use(express.urlencoded({extended: true}));
     app.use(cors({
-        origin: "http://localhost:3000", // allow to server to accept request from different origin
+        origin: "https://64c73bcda9a8730007e55ce1--cosmic-pony-664c88.netlify.app/", // allow to server to accept request from different origin
         methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
         credentials: true,
     }));
