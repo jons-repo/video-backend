@@ -33,6 +33,7 @@ const seedFollows = [
 
 const seed = async () => {
   try {
+    await db.sync({force: true})
     await User.bulkCreate(seedUsers);
     await Livestream.bulkCreate(seedLivestreams);
     await Videochat.bulkCreate(seedVideochats);

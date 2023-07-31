@@ -1,17 +1,21 @@
-
 const app = require ("./app");
 const http = require('http');
-const {Server } = require("socket.io");
-// app.use(cors());
+const { Server } = require("socket.io");
+
+const PORT = process.env.PORT || 3001
 
 const server = http.createServer(app);
-// const io = new Server (server, {
-//     cors: {
-//         origin: "http://localhost:3000",
-//         methods: ["GET", "POST"],
-//     }
-// });
-const io = new Server(server);
+const io = new Server (server, {
+    cors: {
+        origin: process.env.FRONTEND_URL || "http://localhost:3000",
+        methods: ["GET", "POST"],
+        credentials: true,
+        allowedHeaders:
+        "Authorization, X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
+      preflightContinue: true,
+    }
+});
+// const io = new Server(server);
 
 let connectedUsers = [];
 let livestreamRooms = [];
@@ -136,6 +140,6 @@ io.on("connection", (socket) => {
 
 })
 
-server.listen(3001, () => {
+server.listen(PORT, () => {
     console.log("server running on port 3001");
 })

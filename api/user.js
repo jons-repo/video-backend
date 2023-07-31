@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { User, Follow } = require('../db/models');
 
 //mounted on api/user
-// http://localhost:3001/api/user
+// ${process.env.REACT_APP_BACKEND_URL}/api/user
 
 router.get('/allUsers', async (req, res, next)=>{
   console.log(req.user + " HEEEEYEYEYEYEYYYYY!!!!")
